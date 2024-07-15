@@ -11,15 +11,15 @@ class TestLoginCourierAPI:
         assert test_courier.status_code == 200 and ApiResponses.COURIER_LOGIN_SUCCESSFUL in test_courier.json()
 
     @allure.title('Попытка входа в систему с отсутствием одного из полей')
-    @allure.description('Вход в систему без логина и проверка ошибки')
+    @allure.description('Вход в систему только с логином и проверка ошибки')
     def test_login_missing_login(self):
-        test_courier = MethodsCourier.login_courier_without_login()
+        test_courier = MethodsCourier.login_courier_with_login()
         assert test_courier.status_code == 400 and test_courier.json()['message'] == ApiResponses.COURIER_LOGIN_MISSING_PARAM_UNSUCCESSFUL
 
     @allure.title('Попытка входа в систему с отсутствием одного из полей')
-    @allure.description('Вход в систему без пароля и проверка ошибки')
+    @allure.description('Вход в систему только с паролем и проверка ошибки')
     def test_login_missing_password(self):
-        test_courier = MethodsCourier.login_courier_without_password()
+        test_courier = MethodsCourier.login_courier_with_password()
         assert test_courier.status_code == 400 and test_courier.json()['message'] == ApiResponses.COURIER_LOGIN_MISSING_PARAM_UNSUCCESSFUL
 
     @allure.title('Попытка войти в систему с несуществующими данными')

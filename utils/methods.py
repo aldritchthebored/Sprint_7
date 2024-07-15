@@ -21,10 +21,10 @@ class MethodsCourier:
     @staticmethod
     @allure.step("Создание курьера без логина")
     def create_courier_without_login():
-        only_login = Helpers.create_courier_data()["login"]
+        only_password = Helpers.create_courier_data()["password"]
         payload = {
-            "login": only_login,
-            "password": ""
+            "login": "",
+            "password": only_password
         }
         response = requests.post(ApiUrls.MAIN_URL + ApiUrls.CREATE_COURIER_API, data=payload)
         return response
@@ -32,10 +32,10 @@ class MethodsCourier:
     @staticmethod
     @allure.step("Создание курьера без пароля")
     def create_courier_without_password():
-        only_password = Helpers.create_courier_data()["password"]
+        only_login = Helpers.create_courier_data()["login"]
         payload = {
-            "login": "",
-            "password": only_password
+            "login": only_login,
+            "password": ""
         }
         response = requests.post(ApiUrls.MAIN_URL + ApiUrls.CREATE_COURIER_API, data=payload)
         return response
@@ -49,22 +49,22 @@ class MethodsCourier:
 
     @staticmethod
     @allure.step("Попытка войти в систему только с логином")
-    def login_courier_without_login():
-        only_password = Helpers.create_courier_data()["password"]
+    def login_courier_with_login():
+        only_login = Helpers.create_courier_data()["login"]
         payload = {
-            "login": "",
-            "password": only_password
+            "login": only_login,
+            "password": ""
         }
         response = requests.post(ApiUrls.MAIN_URL + ApiUrls.LOGIN_COURIER_API, data=payload)
         return response
 
     @staticmethod
     @allure.step("Попытка войти в систему только с паролем")
-    def login_courier_without_password():
-        only_login = Helpers.create_courier_data()["login"]
+    def login_courier_with_password():
+        only_password = Helpers.create_courier_data()["password"]
         payload = {
-            "login": only_login,
-            "password": ""
+            "login": "",
+            "password": only_password
         }
         response = requests.post(ApiUrls.MAIN_URL + ApiUrls.LOGIN_COURIER_API, data=payload)
         return response
