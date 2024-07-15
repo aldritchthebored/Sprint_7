@@ -11,6 +11,7 @@ class TestCreateOrderAPI:
     @pytest.mark.parametrize(
         'payload',
         [
+            Helpers.create_data_for_order(["GREY"]),
             Helpers.create_data_for_order(["BLACK"]),
             Helpers.create_data_for_order(["BLACK", "GREY"]),
             Helpers.create_data_for_order([""])

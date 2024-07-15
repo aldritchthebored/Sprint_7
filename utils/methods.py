@@ -12,15 +12,26 @@ class MethodsCourier:
         return response
 
     @staticmethod
-    @allure.step("Cоздание двух курьеров с одиннаковыми данными")
-    def create_two_couriers(payload):
-        requests.post(ApiUrls.MAIN_URL + ApiUrls.CREATE_COURIER_API, data=payload)
-        response_1 = requests.post(ApiUrls.MAIN_URL + ApiUrls.CREATE_COURIER_API, data=payload)
-        return response_1
+    @allure.step("Удаление курьера из системы")
+    def delete_courier(payload):
+        login_courier = requests.post(ApiUrls.MAIN_URL + ApiUrls.LOGIN_COURIER_API, data=payload)
+        id_courier = login_courier.json()['id']
+        requests.delete(ApiUrls.MAIN_URL + ApiUrls.DELETE_COURIER_API + str(id_courier))
 
     @staticmethod
-    @allure.step("Создание курьера без одного обязательного поля")
+    @allure.step("Создание курьера без логина")
     def create_courier_without_login():
+        only_login = Helpers.create_courier_data()["login"]
+        payload = {
+            "login": only_login,
+            "password": ""
+        }
+        response = requests.post(ApiUrls.MAIN_URL + ApiUrls.CREATE_COURIER_API, data=payload)
+        return response
+
+    @staticmethod
+    @allure.step("Создание курьера без пароля")
+    def create_courier_without_password():
         only_password = Helpers.create_courier_data()["password"]
         payload = {
             "login": "",
@@ -37,12 +48,23 @@ class MethodsCourier:
         return response
 
     @staticmethod
-    @allure.step("Попытка войти в систему с заполненным одним обязательным полем")
+    @allure.step("Попытка войти в систему только с логином")
     def login_courier_without_login():
-        only_password = Helpers.create_courier_data()["login"]
+        only_password = Helpers.create_courier_data()["password"]
         payload = {
             "login": "",
             "password": only_password
+        }
+        response = requests.post(ApiUrls.MAIN_URL + ApiUrls.LOGIN_COURIER_API, data=payload)
+        return response
+
+    @staticmethod
+    @allure.step("Попытка войти в систему только с паролем")
+    def login_courier_without_password():
+        only_login = Helpers.create_courier_data()["login"]
+        payload = {
+            "login": only_login,
+            "password": ""
         }
         response = requests.post(ApiUrls.MAIN_URL + ApiUrls.LOGIN_COURIER_API, data=payload)
         return response
